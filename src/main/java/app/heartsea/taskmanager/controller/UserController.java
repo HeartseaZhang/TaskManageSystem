@@ -2,6 +2,7 @@ package app.heartsea.taskmanager.controller;
 
 import app.heartsea.taskmanager.domain.User;
 import app.heartsea.taskmanager.service.UserService;
+import app.heartsea.taskmanager.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
 
     @Autowired
     private UserService userService;
@@ -44,7 +46,11 @@ public class UserController {
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
-
+    @GetMapping("/me")
+    public ResponseEntity<?> me(){
+        User user = (User) UserContext.getUser();
+        return ResponseEntity.ok("111");
+    }
     @PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestBody User loginUser) {
         User user = userService.getUserByEmail(loginUser.getEmail());
